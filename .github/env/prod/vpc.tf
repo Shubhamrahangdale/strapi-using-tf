@@ -12,7 +12,7 @@ resource "aws_vpc" "vpc" {
 # Create a subnet within the VPC
 resource "aws_subnet" "default" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "10.0.1.0/16"  # Replace with desired CIDR block
+  cidr_block              = "10.0.0.0/16"  # Replace with desired CIDR block
   availability_zone       = "eu-north-1a"  # Replace with desired AZ
   map_public_ip_on_launch = true
 
