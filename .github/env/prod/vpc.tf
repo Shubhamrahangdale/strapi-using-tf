@@ -13,7 +13,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "default" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.1.0/24"  # Replace with desired CIDR block
-  availability_zone       = "us-west-2a"  # Replace with desired AZ
+  availability_zone       = "eu-north-1a"  # Replace with desired AZ
   map_public_ip_on_launch = true
 
   tags = {
