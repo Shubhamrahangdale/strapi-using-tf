@@ -22,7 +22,7 @@ resource "aws_subnet" "default" {
 }
 
 # Create a security group for the VPC
-resource "aws_security_group" "strapiSG" {
+resource "aws_security_group" "strapi_sg" {
   name   = "strapi-sg"
   vpc_id = aws_vpc.vpc.id 
 
