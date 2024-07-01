@@ -11,16 +11,16 @@ data "aws_subnets" "default" {
   # Optional: Specify an exact availability zone
   # filter {
   #   name   = "availability-zone"
-  #   values = ["us-west-2"]  # Adjust as necessary
+  #   values = ["eu-north-1a"]  # Adjust as necessary
   # }
 }
 
-# data "aws_subnet" "first" {
-# id = element(data.aws_subnets.default.ids, 0)
-# }
+data "aws_subnet" "first" {
+  id = element(data.aws_subnets.default.ids, 0)
+}
 
-resource "aws_security_group" "strapi_sg" {
-  vpc_id = aws_vpc.vpc.id
+resource "aws_security_group" "app_sg" {
+  vpc_id = data.aws_vpc.default.id
 
   ingress {
     from_port   = 22
@@ -28,7 +28,7 @@ resource "aws_security_group" "strapi_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     from_port   = 1337
     to_port     = 1337
@@ -48,16 +48,16 @@ resource "aws_security_group" "strapi_sg" {
   }
 }
 
-resource "aws_instance" "shubham-strapi" {
-  ami                    = "ami-0cf2b4e024cdb6960"
+resource "aws_instance" "shubh-strapi" {
+  ami                    = "ami-0705384c0b33c194c"
   instance_type          = "t3.medium"
-  subnet_id              = data.aws_subnet.id
+  subnet_id              = data.aws_subnet.first.id
   vpc_security_group_ids = [aws_security_group.strapi_sg.id]
   key_name               = "shubham_prvt"
 
   user_data = file("user_data.sh")
 
   tags = {
-    Name = "shubham-strapi"
+    Name = "shubh-app"
   }
 }
