@@ -64,6 +64,4 @@ resource "aws_instance" "shubh-strapi" {
   }
 }
 
-output "instance_ip" {
-value = aws_instance.app.public_ip
-}
+
