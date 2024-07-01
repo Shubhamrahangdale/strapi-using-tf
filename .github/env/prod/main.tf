@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "us-west-2"  # Replace with your desired region
+}
+
 data "aws_vpc" "default" {
   default = true
 }
@@ -43,10 +47,10 @@ resource "aws_security_group" "app_sg" {
 }
 
 resource "aws_instance" "shubh-strapi" {
-  ami                    = "ami-0cf2b4e024cdb6960"
+  ami                    = "ami-0cf2b4e024cdb6960"  # Ensure this AMI ID is correct for your region
   instance_type          = "t3.medium"
   subnet_id              = data.aws_subnet.first.id
-  vpc_security_group_ids = [aws_security_group.strapi_sg.id]
+  vpc_security_group_ids = [aws_security_group.app_sg.id]
   key_name               = "shubham_prvt"
 
   user_data = file("user_data.sh")
