@@ -15,12 +15,12 @@ data "aws_subnets" "default" {
   # }
 }
 
-data "aws_subnet" "first" {
-  id = element(data.aws_subnets.default.ids, 0)
-}
+# data "aws_subnet" "first" {
+# id = element(data.aws_subnets.default.ids, 0)
+# }
 
-resource "aws_security_group" "app_sg" {
-  vpc_id = data.aws_vpc.default.id
+resource "aws_security_group" "strapi_sg" {
+  vpc_id = aws_vpc.vpc.id
 
   ingress {
     from_port   = 22
@@ -51,7 +51,7 @@ resource "aws_security_group" "app_sg" {
 resource "aws_instance" "shubham-strapi" {
   ami                    = "ami-0cf2b4e024cdb6960"
   instance_type          = "t3.medium"
-  subnet_id              = data.aws_subnet.first.id
+  subnet_id              = data.aws_subnet.id
   vpc_security_group_ids = [aws_security_group.strapi_sg.id]
   key_name               = "shubham_prvt"
 
