@@ -7,13 +7,6 @@ data "aws_subnets" "default" {
     name   = "vpc-id"
     values = [data.aws_vpc.default.id]
   }
-
-  # Optional: Specify an exact availability zone
-   filter {
-  #   name   = "availability-zone"
-  #   values = ["eu-north-1a"]  # Adjust as necessary
-  # }
-  
 }
 
 data "aws_subnet" "first" {
