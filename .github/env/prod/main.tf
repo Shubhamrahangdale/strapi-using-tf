@@ -11,7 +11,7 @@ data "aws_subnets" "default" {
   # Optional: Specify an exact availability zone
   # filter {
   #   name   = "availability-zone"
-  #   values = ["eu-north-1a"]  # Adjust as necessary
+  #   values = ["us-west-2"]  # Adjust as necessary
   # }
 }
 
