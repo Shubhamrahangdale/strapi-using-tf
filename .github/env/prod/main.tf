@@ -52,7 +52,7 @@ resource "aws_instance" "shubham-strapi" {
   ami                    = "ami-0705384c0b33c194c"
   instance_type          = "t3.medium"
   subnet_id              = data.aws_subnet.first.id
-  security_groups = [aws_security_group.strapi_sg.name]
+  vpc_security_group_ids = [aws_security_group.strapi_sg.id]
   key_name               = "shubham_prvt"
 
   user_data = file("user_data.sh")
