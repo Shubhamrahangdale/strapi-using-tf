@@ -52,7 +52,7 @@ resource "aws_security_group" "app_sg" {
 
 resource "aws_instance" "shubh-strapi" {
   ami                    = "ami-01b1be742d950fb7f"  # Ensure this AMI ID is correct for your region
-  instance_type          = "t3.medium"
+  instance_type          = "t3.micro"
   subnet_id              = data.aws_subnet.first.id
   vpc_security_group_ids = [aws_security_group.app_sg.id]
   key_name               = "shubham_prvt"
