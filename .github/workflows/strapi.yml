@@ -16,19 +16,21 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20'
+
       - name: Install dependencies
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v2
-          - name: SSH commands setup
-            uses: appleboy/ssh-action@master   #github action marketplace 
-            with:
-              script: |
-                cd ~/strapi-using-tf
-                git pull origin main
-                npm install
-                npm run build
-                pm2 stop strapi || true
-                nohup npm start > strapi.log 2>&1 &  
-                echo "Application started successfully on EC2."
-          
+        run: |
+          npm install
+
+      - name: SSH commands setup
+        uses: appleboy/ssh-action@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          script: |
+            cd ~/strapi-using-tf
+            git pull origin main
+            npm install
+            npm run build
+            pm2 stop strapi || true
+            nohup npm start > strapi.log 2>&1 &
+            echo "Application started successfully on EC2."
