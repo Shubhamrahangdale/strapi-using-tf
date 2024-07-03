@@ -17,12 +17,18 @@ jobs:
         with:
           node-version: '20'
       - name: Install dependencies
-        script: |
-          cd ~/strapi-using-tf
-          git pull origin main
-          npm install
-          npm run build
-          pm2 stop strapi || true
-          nohup npm start > strapi.log 2>&1 &  
-          echo "Application started successfully on EC2."
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+          - name: SSH commands setup
+            uses: appleboy/ssh-action@master   #github action marketplace 
+            with:
+              script: |
+                cd ~/strapi-using-tf
+                git pull origin main
+                npm install
+                npm run build
+                pm2 stop strapi || true
+                nohup npm start > strapi.log 2>&1 &  
+                echo "Application started successfully on EC2."
           
