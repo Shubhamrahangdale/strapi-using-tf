@@ -19,7 +19,7 @@ git config --global user.name "Shubhamrahangdale"
 git config --global user.email "Shubhrahangdale445@gmail.com"
 
 # Clone the Strapi project repository and change to the project directory
-git clone https://github.com/PearlThoughts-DevOps-Internship/strapi.git
+git clone https://github.com/Shubhamrahangdale/strapi-using-tf.git
 cd strapi
 
 # Check out the correct branch
