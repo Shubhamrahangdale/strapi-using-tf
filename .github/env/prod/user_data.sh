@@ -1,67 +1,23 @@
 #!/bin/bash
 
-# Update and install necessary packages
-sudo apt-get update
-sudo apt-get install -y git nodejs npm docker.io
+#update package list
+sudo apt update -y
 
-# Start Docker service
-sudo systemctl start docker
-sudo systemctl enable docker
+# install nodejs 18 & npm
+sudo apt install nodejs -y && sudo apt install -y npm
 
-# Add the ubuntu user to the docker group
-sudo usermod -aG docker ubuntu
+# update package list and install pm2(nodejs Process Manager 2)
+sudo apt update -y && sudo npm install -g pm2
 
-# Navigate to the /srv directory
-cd /srv
+# go to directory to download code
+cd /srv/
 
-# Configure Git
-git config --global user.name "Shubhamrahangdale"
-git config --global user.email "Shubhrahangdale445@gmail.com"
+# clone strapi app 
+git clone https://github.com/VyankateshwarTaikar/strapi2_product.git
+cd strapi2_product/
 
-# Clone the Strapi project repository and change to the project directory
-git clone https://github.com/Shubhamrahangdale/strapi-using-tf.git
-cd strapi
+# run application 
+pm2 start npm --name strapi -- run start
 
-# Check out the correct branch
-git checkout mainprod_strap
-
-# Set permissions for the project directory
-sudo chown -R ubuntu:ubuntu /srv/strapi
-sudo chmod -R 755 /srv/strapi
-
-# Create .env file with the required environment variables
-cat <<EOT > .env
-HOST=0.0.0.0
-PORT=1337
-APP_KEYS="toBeModified1,toBeModified2"
-API_TOKEN_SALT=tobemodified
-ADMIN_JWT_SECRET=tobemodified
-TRANSFER_TOKEN_SALT=tobemodified
-JWT_SECRET=tobemodified
-EOT
-
-# Build the Docker image for the Strapi project
-sudo docker build -t strapi-app .
-
-# Run the Strapi container
-sudo docker run -d -p 1337:1337 --name strapi-app --env-file .env strapi-app
-
-# Ensure the Strapi container starts on boot
-sudo tee /etc/systemd/system/strapi-app.service > /dev/null <<EOF
-[Unit]
-Description=Strapi Container
-After=docker.service
-Requires=docker.service
-
-[Service]
-Restart=always
-ExecStart=/usr/bin/docker start -a strapi-app
-ExecStop=/usr/bin/docker stop -t 2 strapi-app
-
-[Install]
-WantedBy=default.target
-EOF
-
-sudo systemctl enable strapi-app.service
-
-echo "Setup complete. Strapi should now be running and accessible at http://<your-ec2-instance-public-ip>:1337"
+#restart pm2 
+sudo pm2 startup systemd
